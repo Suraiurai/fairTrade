@@ -21,6 +21,7 @@ class MapScreen extends ConsumerStatefulWidget {
 class _MapScreenState extends ConsumerState<MapScreen> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
+  final PanelController _panelController = PanelController();
   LatLng? _currentLocation;
   final Set<Marker> _markers = {};
   final List<Map<String, dynamic>> navItems = [
@@ -73,7 +74,7 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           LatLng(locationData.latitude!, locationData.longitude!);
       final BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
         const ImageConfiguration(size: Size(48, 48)),
-        'assets/icons/mark.svg',
+        'assets/icons/MarkFair.png',
       );
       setState(() {
         _currentLocation = userLocation;
@@ -92,6 +93,28 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     } catch (e) {
       debugPrint('Error fetching user location: $e');
     }
+  }
+
+  void _onNavItemTapped(int index) async {
+    // Collapse the panel
+    if (_panelController.isPanelOpen) {
+      await _panelController.close();
+    }
+
+    // Update selected index
+    setState(() {
+      selectedIndex = index;
+    });
+
+    // Delay to let the new screen load
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (_panelController.isPanelClosed) {
+        _panelController.open();
+      }
+    });
+
+    // Call onTap function for the nav item
+    navItems[index]['onTap']?.call();
   }
 
   @override
@@ -120,19 +143,19 @@ class _MapScreenState extends ConsumerState<MapScreen> {
             height: 260,
             width: double.infinity,
             decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30), topRight: Radius.circular(30)),
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.white,
+                  Colors.white70,
                   Color.fromARGB(0, 255, 255, 255),
                 ],
               ),
             ),
           ),
           SlidingUpPanel(
+            controller: _panelController,
             maxHeight: MediaQuery.of(context).size.height * 0.93,
             minHeight: 134,
             color: Colors.white,
@@ -165,13 +188,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                     return NavBarIcon(
                       icon: item['icon'],
                       activeIcon: item['activeIcon'],
-                      active: selectedIndex == index ? true : false,
-                      onTap: () {
-                        setState(() {
-                          selectedIndex = index;
-                        });
-                        item['onTap']?.call();
-                      },
+                      active: selectedIndex == index,
+                      onTap: () => _onNavItemTapped(index),
                     );
                   },
                 ),

@@ -15,7 +15,8 @@ enum AppIcons {
   mark("mark"),
   walmart("walmart"),
   kroger("kroger"),
-  shop("shop")
+  shop("shop"),
+  benandJerry("berry&jerry")
   
   ;
 

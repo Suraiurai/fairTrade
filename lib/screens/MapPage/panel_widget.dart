@@ -23,7 +23,9 @@ class PanelWidget extends StatelessWidget {
                 child: CustomScrollView(
                   controller: controller,
                   slivers: [
-                    SliverToBoxAdapter(child: SizedBox(height: 60),),
+                    SliverToBoxAdapter(
+                      child: SizedBox(height: 60),
+                    ),
                     SliverToBoxAdapter(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -91,9 +93,9 @@ class PanelWidget extends StatelessWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.white,
-                       Colors.white,
                       Colors.white,
-                      Color.fromARGB(190, 255, 255, 255),
+                      Colors.white,
+                      Color.fromARGB(225, 255, 255, 255),
                       Colors.white54,
                       Color.fromARGB(0, 255, 255, 255),
                     ],
@@ -119,31 +121,3 @@ class PanelWidget extends StatelessWidget {
     );
   }
 }
-
-
-              // Container(
-              //     height: 260,
-              //     width: double.infinity,
-              //     decoration: const BoxDecoration(
-              //       color: Colors.white,
-              //       gradient: LinearGradient(
-              //         begin: Alignment.topCenter,
-              //         end: Alignment.bottomCenter,
-              //         colors: [
-              //           Colors.white,
-              //           Colors.transparent,
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              //   Padding(
-              //     padding: const EdgeInsets.only(top: 20, bottom: 10),
-              //     child: Container(
-              //       width: 35.0,
-              //       height: 5.0,
-              //       decoration: const BoxDecoration(
-              //         color: AppColors.light600,
-              //         borderRadius: BorderRadius.all(Radius.circular(8.0)),
-              //       ),
-              //     ),
-              //   ),
