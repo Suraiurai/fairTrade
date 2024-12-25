@@ -1,0 +1,33 @@
+[
+    {
+        "market_name": "shop",
+        "address": "Sydney Johnson, 800 Ocean Avenuea",
+        "distance": "20m",
+        "icon": "shopFair"
+      },
+      {
+        "market_name": "walmart",
+        "address": "Los Angeles, CA 90021",
+        "distance": "65m",
+        "icon": "walmart"
+      },
+      {
+        "market_name": "Kroger",
+        "address": "421 North Spruce, Gardner, Kansas 66030",
+        "distance": "2.4km",
+        "icon": "kroger"
+      },
+      {
+        "market_name": "walmart",
+        "address": "Los Angeles, CA 90021",
+        "distance": "65m",
+        "icon": "walmart"
+      },
+      {
+        "market_name": "shop",
+        "address": "Sydney Johnson, 800 Ocean Avenuea",
+        "distance": "20m",
+        "icon": "shopFair"
+      }
+      
+]

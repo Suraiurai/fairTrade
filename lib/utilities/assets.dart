@@ -16,8 +16,14 @@ enum AppIcons {
   walmart("walmart"),
   kroger("kroger"),
   shop("shop"),
-  benandJerry("berry&jerry")
-  
+  benandJerry("berry&jerry"),
+  shopText("shop_rectangle"),
+  chocolate("cacao_fair"),
+  banana("banana_fair "),
+  coffee("coffe_bean_fair"),
+  cotton("cotton_fair"),
+  cottonP("cotton"),
+  sugar("sugar_fair")
   ;
 
   final String path;

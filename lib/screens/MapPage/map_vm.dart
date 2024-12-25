@@ -1,34 +1,60 @@
+import 'package:dubai_project/utilities/assets.dart';
+import 'package:dubai_project/utilities/enums.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:location/location.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-final mapViewProvider =
-    StateNotifierProvider<MapVM, bool>((ref) => MapVM());
+final activePage = StateProvider<Pages>((ref) => Pages.home);
+final selectedIndexProvider = StateProvider<int>((ref) => 0);
+final isNavProvider = StateProvider<bool>((ref) => true);
 
-class MapVM extends StateNotifier<bool> {
-  MapVM() : super(false);
+final navItemsProvider = Provider<List<Map<String, dynamic>>>((ref) => [
+  {
+    'icon': AppIcons.homeTab.svgPicture(),
+    'activeIcon': AppIcons.homeSelectedTab.svgPicture(),
 
-  Future<bool> getUserLocation() async {
-    try {
-      state = true;
-      bool serviceEnabled = await Location.instance.serviceEnabled();
-      if (!serviceEnabled) {
-        bool isRequestGranted = await Location.instance.requestService();
-        if (!isRequestGranted) {
-          return false;
-        }
-      }
-      PermissionStatus status = await Location.instance.hasPermission();
-      if (status == PermissionStatus.denied) {
-        status = await Location.instance.requestPermission();
-        if (status != PermissionStatus.granted) {
-          return true;
-        }
-      }
-      state = false;
-      return true;
-    } catch (e) {
-      state = false;
-      rethrow;
+  },
+  {
+    'icon': AppIcons.searchTab.svgPicture(),
+    'activeIcon': AppIcons.searchSelectedTab.svgPicture(),
+  },
+  {
+    'icon': AppIcons.messageTab.svgPicture(),
+    'activeIcon': AppIcons.messageSelectedTab.svgPicture(),
+  },
+  {
+    'icon': AppIcons.profileTab.svgPicture(),
+    'activeIcon': AppIcons.profileSelectedTab.svgPicture(),
+  },
+]);
+
+
+final onNavItemTappedProvider = Provider<void Function(PanelController, WidgetRef, int)>((ref) {
+  return (PanelController panelController, WidgetRef ref, int index) async {
+    if (panelController.isPanelOpen) {
+      await panelController.close();
     }
-  }
-}
+    ref.read(selectedIndexProvider.notifier).update((state) => index);
+     ref.read(isNavProvider.notifier).update((state) => true);
+    Future.delayed(const Duration(milliseconds: 150), () {
+      if (panelController.isPanelClosed) {
+        panelController.open();
+      }
+    });
+  };
+});
+
+
+final onItemTappedProvider = Provider<void Function(PanelController, WidgetRef, Pages)>((ref) {
+  return (PanelController panelController, WidgetRef ref,  Pages page) async {
+    // if (panelController.isPanelOpen) {
+      await panelController.close();
+    // }
+    ref.read(activePage.notifier).update((state) => page); 
+    ref.read(isNavProvider.notifier).update((state) => false);
+    Future.delayed(const Duration(milliseconds: 150), () {
+      // if (panelController.isPanelClosed) {
+        panelController.open();
+      // }
+    });
+  };
+});

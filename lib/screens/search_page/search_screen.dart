@@ -1,3 +1,4 @@
+import 'package:dubai_project/components/header.dart';
 import 'package:dubai_project/components/product_item.dart';
 import 'package:dubai_project/components/search_button.dart';
 import 'package:dubai_project/utilities/enums.dart';
@@ -21,7 +22,7 @@ class _SearchScreenState extends State<SearchScreen> {
       children: [
         Column(
           children: [
-            const SizedBox(height: 25),
+            const SizedBox(height: 22),
             Expanded(
               child: CustomScrollView(
                 controller: widget.controller,
@@ -61,7 +62,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       gridDelegate:
                           SliverGridDelegateWithMaxCrossAxisExtent(
                             maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
-                        mainAxisExtent: 201,
+                        mainAxisExtent: 204,
                         mainAxisSpacing: 30.0,
                         crossAxisSpacing: 22.0,
                         childAspectRatio: 1,
@@ -79,14 +80,13 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ],
         ),
+
         Positioned(
           top: 110,
           child: Container(
             height: 53,
             width: MediaQuery.of(context).size.width,
             decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30), topRight: Radius.circular(30)),
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -102,6 +102,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
         ),
+        
         Positioned(
           top: 1,
           left: MediaQuery.of(context).size.width,

@@ -6,3 +6,12 @@ enum SearchButtons{
   Coffe,
   Cotton
 }
+
+enum Pages{
+  home, 
+  search,
+  chat, 
+  profile,
+  storeInfo,
+  productInfo
+}

@@ -11,8 +11,9 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 201,
+      height: 204,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             height: 167,
@@ -23,7 +24,10 @@ class ProductItem extends StatelessWidget {
             child: Center(child: AppIcons.benandJerry.pngPicture),
           ),
       
-          AllText(text: txt, fontSize: 15)
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: AllText(text: txt, fontSize: 15, fontWeight: FontWeight.w500,),
+          )
         ],
       ),
     );
