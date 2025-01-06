@@ -1,0 +1,92 @@
+[
+    {
+        "id": "0",
+        "market_name": "shop",
+        "address": "Sydney Johnson, 800 Ocean Avenuea",
+        "distance": "20m",
+        "icon": "shop_rectangle",
+        "description" : "Chocolate ice cream with gooey marshmallow swirls, caramel swirls & fudge fish A portion of the royalties from Ben & Jerry’s Phish Food goes toward environmental efforts in Vermont's Lake Champlain Watershed.",
+        "category" : [
+            {
+                "icon" : "coffe_bean",
+                "name" : "Coffee"
+            },
+            {
+                "icon" : "chocolate",
+                "name" : "Chocolate"
+            }
+        ],
+        "products" : [
+            {
+                "image" : "product_1",
+                "name" : "Phinish Food",
+                "price" : "$18.00"
+            },
+            {
+                "image" : "product_2",
+                "name" : "Hunks",
+                "price" : "$10.00"
+            },
+            {
+                "image" : "product_3",
+                "name" : "Endangered Species",
+                "price" : "$19.99"
+            },
+            {
+                "image" : "product_4",
+                "name" : "Three sisters - coffee",
+                "price" : "$19.99"
+            },
+            {
+                "image" : "product_1",
+                "name" : "HU - Chocolate Covered Hunks",
+                "price" : "$10.00"
+            }   
+        ]
+    },
+    {
+        "id": "1",
+        "market_name": "walmart",
+        "address": "Los Angeles, CA 90021",
+        "distance": "65m",
+        "icon": "walmart",
+        "description" : "Food goes toward environmental efforts in Vermont's Lake Champlain Watershed.",
+        "category" : [
+            {
+                "icon" : "banana",
+                "name" : "Banana"
+            },
+            {
+                "icon" : "sugar",
+                "name" : "Sugar"
+            }
+        ],
+        "products" : [
+            {
+                "image" : "product_1",
+                "name" : "Phinish Food",
+                "price" : "$18.00"
+            },
+            {
+                "image" : "product_2",
+                "name" : "Hunks",
+                "price" : "$10.00"
+            },
+            {
+                "image" : "product_3",
+                "name" : "Endangered Species",
+                "price" : "$19.99"
+            },
+            {
+                "image" : "product_4",
+                "name" : "Three sisters - coffee",
+                "price" : "$19.99"
+            },
+            {
+                "image" : "product_1",
+                "name" : "HU - Chocolate Covered Hunks",
+                "price" : "$10.00"
+            }   
+        ]
+    }
+]

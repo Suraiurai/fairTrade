@@ -18,12 +18,20 @@ enum AppIcons {
   shop("shop"),
   benandJerry("berry&jerry"),
   shopText("shop_rectangle"),
-  chocolate("cacao_fair"),
-  banana("banana_fair "),
-  coffee("coffe_bean_fair"),
-  cotton("cotton_fair"),
-  cottonP("cotton"),
-  sugar("sugar_fair")
+  chocolate("chocolate"),
+  banana("banana"),
+  coffee("coffe_bean"),
+  cotton("cotton"),
+  sugar("sugar"),
+  bag("shopping_bag 1"),
+  f("Layer_1_f"),
+  fInactive("f_fair_inactive"),
+  woman("womenImg"),
+  arrow("arrow"),
+  scan("Scan"),
+  profile("profile_fair")
+
+
   ;
 
   final String path;

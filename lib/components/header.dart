@@ -11,8 +11,8 @@ class Header extends StatelessWidget {
         Container(
           height: 60,
           width: double.infinity,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30)),
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -21,9 +21,10 @@ class Header extends StatelessWidget {
                 Colors.white,
                 Colors.white,
                 Colors.white,
-                Color.fromARGB(225, 255, 255, 255),
-                Colors.white54,
-                Color.fromARGB(0, 255, 255, 255),
+                Colors.white.withOpacity(0.9),
+                Colors.white.withOpacity(0.7),
+                Colors.white.withOpacity(0.3),
+                const Color.fromARGB(0, 255, 255, 255),
               ],
             ),
           ),

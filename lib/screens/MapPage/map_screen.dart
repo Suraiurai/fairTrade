@@ -1,8 +1,13 @@
 import 'package:dubai_project/components/nav_bar_icon.dart';
+import 'package:dubai_project/components/text.dart';
 import 'package:dubai_project/screens/HomePage/UI/panel_widget.dart';
 import 'package:dubai_project/screens/MapPage/map_vm.dart';
+import 'package:dubai_project/screens/ProductProofPage/product_proof_screen.dart';
+import 'package:dubai_project/screens/ProfilePage/profile_screen.dart';
 import 'package:dubai_project/screens/StorePage/store_screen.dart';
+import 'package:dubai_project/screens/StoryPage/store_of_the_day_screen.dart';
 import 'package:dubai_project/screens/search_page/search_screen.dart';
+import 'package:dubai_project/utilities/assets.dart';
 import 'package:dubai_project/utilities/enums.dart';
 import 'package:dubai_project/utilities/theme.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +26,8 @@ class MapScreen extends ConsumerStatefulWidget {
 }
 
 class _MapScreenState extends ConsumerState<MapScreen> {
-  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
   final PanelController _panelController = PanelController();
   LatLng? _currentLocation;
   final Set<Marker> _markers = {};
@@ -35,7 +41,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
   }
 
   void _loadMapStyle() async {
-    _mapStyleString = await rootBundle.loadString('assets/map_style.json');
+    _mapStyleString =
+        await rootBundle.loadString('assets/jsons/map_style.json');
   }
 
   Future<void> _fetchUserLocation() async {
@@ -48,10 +55,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
 
       final locationData = await location.getLocation();
       if (locationData.latitude != null && locationData.longitude != null) {
-        final userLocation = LatLng(locationData.latitude!, locationData.longitude!);
-        final BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
-          const ImageConfiguration(size: Size(48, 48)),
-          'assets/icons/MarkFair.png',
+        final userLocation =
+            LatLng(locationData.latitude!, locationData.longitude!);
+        final BitmapDescriptor customIcon =
+            await BitmapDescriptor.fromAssetImage(
+          const ImageConfiguration(size: Size(186, 186)),
+          'assets/icons/markN.png',
         );
 
         setState(() {
@@ -83,7 +92,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           GoogleMap(
             mapType: MapType.normal,
             initialCameraPosition: CameraPosition(
-              target: _currentLocation ?? const LatLng(37.42796133580664, -122.085749655962),
+              target: _currentLocation ??
+                  const LatLng(37.42796133580664, -122.085749655962),
               zoom: 14.4746,
             ),
             onMapCreated: (controller) {
@@ -97,22 +107,63 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           Container(
             height: 260,
             width: double.infinity,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
                   Colors.white,
-                  Colors.white70,
+                  Colors.white.withOpacity(0.99),
+                  Colors.white.withOpacity(0.95),
+                  Colors.white.withOpacity(0.8),
+                  Colors.white.withOpacity(0.70),
+                  Colors.white.withOpacity(0.5),
+                  Colors.white.withOpacity(0.3),
+                  Colors.white.withOpacity(0.1),
+                  Colors.white.withOpacity(0.0),
                   Color.fromARGB(0, 255, 255, 255),
                 ],
               ),
             ),
           ),
+          Positioned(
+            right: 0,
+            child: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20, top: 10),
+                child: Container(
+                  width: 84,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      color: AppColors.p1.withOpacity(0.05),
+                      borderRadius: BorderRadius.circular(40),
+                      border:
+                          Border.all(width: 1, color: AppColors.whiteCustom)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      AllText(
+                          text: "250",
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.p1),
+                      SizedBox(width: 10),
+                      SizedBox(
+                          width: 24, height: 24, child: AppIcons.f.svgPicture())
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
           SlidingUpPanel(
             controller: _panelController,
-            maxHeight: MediaQuery.of(context).size.height * 0.93,
-            minHeight: 134,
+            maxHeight: ref.watch(selectedIndexProvider) == 4
+                ? 640
+                : ref.watch(selectedIndexProvider) == 2
+                    ? 407
+                    : MediaQuery.of(context).size.height * 0.93,
+            minHeight: 130,
             color: Colors.white,
             borderRadius: BorderRadius.circular(30),
             panelBuilder: (controller) {
@@ -120,9 +171,21 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                 return _buildPanelContent(controller);
               } else {
                 return ref.watch(activePage) == Pages.storeInfo
-                    ?  StoreScreen(controller: controller,  panelController : _panelController,)
-                    : Container();
+                    ? StoreScreen(
+                        controller: controller,
+                        panelController: _panelController,
+                        id: ref.watch(storeId),
+                      )
+                    : StoryOfTheDay(
+                        controller: controller,
+                        panelController: _panelController,
+                      );
               }
+            },
+            onPanelSlide: (position) {
+              _panelController.animatePanelToPosition(
+                (625 - 130) / (MediaQuery.of(context).size.height * 0.93 - 130),
+              );
             },
           ),
           Positioned(
@@ -147,9 +210,13 @@ class _MapScreenState extends ConsumerState<MapScreen> {
     } else if (selectedIndex == 1) {
       return SearchScreen(controller: controller);
     } else if (selectedIndex == 2) {
+      return ProductProof(
+        controller: controller,
+      );
+    } else if (selectedIndex == 3) {
       return Container();
     } else {
-      return Container();
+      return ProfileScreen(controller: controller);
     }
   }
 
@@ -174,7 +241,8 @@ class _MapScreenState extends ConsumerState<MapScreen> {
               icon: item['icon'],
               activeIcon: item['activeIcon'],
               active: selectedIndex == index,
-              onTap: () => ref.read(onNavItemTappedProvider)(_panelController, ref, index),
+              onTap: () => ref.read(onNavItemTappedProvider)(
+                  _panelController, ref, index),
             );
           },
         ),

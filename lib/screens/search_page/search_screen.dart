@@ -1,4 +1,3 @@
-import 'package:dubai_project/components/header.dart';
 import 'package:dubai_project/components/product_item.dart';
 import 'package:dubai_project/components/search_button.dart';
 import 'package:dubai_project/utilities/enums.dart';
@@ -56,31 +55,37 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                     ),
                   ),
-                  SliverPadding(
-                    padding: const EdgeInsets.only(top: 40, left: 19.5, right: 19.5),
-                    sliver: SliverGrid(
-                      gridDelegate:
-                          SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: MediaQuery.of(context).size.width / 2,
-                        mainAxisExtent: 204,
-                        mainAxisSpacing: 30.0,
-                        crossAxisSpacing: 22.0,
-                        childAspectRatio: 1,
-                      ),
-                      delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                          return ProductItem(txt: "Ben & Jerry’s");
-                        },
-                        childCount: 20,
-                      ),
-                    ),
-                  ),
+                  // SliverPadding(
+                  //   padding: const EdgeInsets.only(
+                  //       top: 40, left: 19.5, right: 19.5, bottom: 100),
+                  //   sliver: SliverGrid(
+                  //     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  //       maxCrossAxisExtent:
+                  //           MediaQuery.of(context).size.width / 2,
+                  //       mainAxisExtent: 223,
+                  //       mainAxisSpacing: 30.0,
+                  //       crossAxisSpacing: 22.0,
+                  //       childAspectRatio: 1,
+                  //     ),
+                  //     delegate: SliverChildBuilderDelegate(
+                  //       (BuildContext context, int index) {
+                  //         return ProductItem(
+                  //           txt: snapshot.data![id]['products'][index]["name"],
+                  //           image: snapshot.data![id]['products'][index]
+                  //               ["image"],
+                  //           price: snapshot.data![id]['products'][index]
+                  //               ["price"],
+                  //         );
+                  //       },
+                  //       childCount: snapshot.data![id]['products'].length,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
           ],
         ),
-
         Positioned(
           top: 110,
           child: Container(
@@ -102,7 +107,6 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
         ),
-        
         Positioned(
           top: 1,
           left: MediaQuery.of(context).size.width,
@@ -132,7 +136,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 40,left: 20, right: 20),
+                  padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width - 40,
                     height: 50,
@@ -149,9 +153,10 @@ class _SearchScreenState extends State<SearchScreen> {
                             Icons.search,
                             color: AppColors.light600,
                           ),
-                          border: OutlineInputBorder(borderSide: BorderSide.none),
-                          contentPadding:
-                              EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                          border:
+                              OutlineInputBorder(borderSide: BorderSide.none),
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 14),
                         ),
                         onChanged: (text) {},
                       ),

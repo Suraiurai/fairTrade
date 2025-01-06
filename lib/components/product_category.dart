@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 
 class ProductCategory extends StatelessWidget {
   final String text;
-  final Widget icon;
+  final String icon;
   final VoidCallback? onTap;
   // final bool isActive;
-  const ProductCategory({super.key, required this.text, this.onTap, required this.icon});
+  const ProductCategory(
+      {super.key, required this.text, this.onTap, required this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -16,18 +17,17 @@ class ProductCategory extends StatelessWidget {
       child: Container(
         height: 50,
         decoration: BoxDecoration(
-          color: AppColors.light100,
-          borderRadius: BorderRadius.circular(80)
-        ),
+            color: AppColors.light100, borderRadius: BorderRadius.circular(80)),
         child: Row(
           children: [
             Padding(
               padding: const EdgeInsets.only(left: 16),
               child: SizedBox(
-                width: 27,
-                height: 27,
-                child: icon),
-            ), 
+                  width: 27,
+                  height: 27,
+                  child:
+                      Image(image: AssetImage("assets/icons/$icon.png"))),
+            ),
             Padding(
               padding: const EdgeInsets.only(right: 24, left: 16),
               child: AllText(text: text),
