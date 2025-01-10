@@ -2,11 +2,13 @@ import 'package:dubai_project/components/text.dart';
 import 'package:dubai_project/utilities/assets.dart';
 import 'package:dubai_project/utilities/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-
 import '../../components/header.dart';
+import '../../utilities/enums.dart';
+import '../MapPage/map_vm.dart';
 
-class StoryOfTheDay extends StatelessWidget {
+class StoryOfTheDay extends ConsumerWidget {
   final ScrollController controller;
   final PanelController panelController;
 
@@ -17,7 +19,7 @@ class StoryOfTheDay extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Stack(
       children: [
         Padding(
@@ -64,7 +66,7 @@ Because no two farmers are the same, the LEAP approach will support different ty
                         ],
                       ),
                     ),
-                    const SliverPadding(padding: EdgeInsets.only(bottom: 100)),
+                    const SliverPadding(padding: EdgeInsets.only(bottom: 200)),
                   ],
                 ),
               ),
@@ -77,38 +79,76 @@ Because no two farmers are the same, the LEAP approach will support different ty
           left: 20,
           right: 20,
           child: GestureDetector(
-            onTap: () {},
+            onTap: () {
+              ref.read(onItemTappedProvider)(
+                panelController,
+                controller,
+                ref,
+                Pages.paymentInfo,
+                0,
+                0,
+              );
+              // showModalBottomSheet(
+              //   context: context,
+              //   isScrollControlled: true,
+              //   enableDrag: false,
+              //   backgroundColor: AppColors.whiteCustom,
+              //   builder: (context) {
+              //     return  PaymentPage();
+              //   },
+              // );
+            },
             child: Container(
               height: 72,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: AppColors.p1,
                 borderRadius: BorderRadius.circular(80),
-                // boxShadow: [
-                //   const BoxShadow(
-                //     color: AppColors.whiteCustom,
-                //   ),
-                //   const BoxShadow(
-                //     color: AppColors.light400,
-                //     spreadRadius: -100.0,
-                //     blurRadius: 12.0,
-                //   ),
-                // ],
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 0,
+                    blurRadius: 10,
+                    offset: Offset(0, 4),
+                  ),
+                ],
               ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    AllText(
-                      text: "Donate",
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.whiteCustom,
-                      fontSize: 15,
+              child: Stack(
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        children: [
+                          const AllText(
+                            text: "Donate",
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.whiteCustom,
+                            fontSize: 15,
+                          ),
+                          const Spacer(),
+                          AppIcons.arrow.svgPicture(),
+                        ],
+                      ),
                     ),
-                    const Spacer(),
-                    AppIcons.arrow.svgPicture(),
-                  ],
-                ),
+                  ),
+                  // Container(
+                  //   height: 50,
+                  //   width: double.infinity,
+                  //   decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(80),
+                  //       shape: BoxShape.rectangle,
+                  //       gradient: RadialGradient(
+                  //         colors: [
+                  //           // Inner shadow color
+                  //           Colors.transparent,
+                  //           Colors.white,
+                  //         ],
+                  //         center: Alignment.center,
+                  //         radius: 4,
+                  //       )),
+                  // )
+                ],
               ),
             ),
           ),

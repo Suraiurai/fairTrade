@@ -3,7 +3,7 @@ enum SearchButtons{
   All,
   Chocolate,
   Rice,
-  Coffe,
+  Coffee,
   Cotton
 }
 
@@ -13,5 +13,8 @@ enum Pages{
   chat, 
   profile,
   storeInfo,
-  productInfo
+  productInfo,
+  organizationInfo,
+  paymentInfo,
+  storyOfTheDay
 }

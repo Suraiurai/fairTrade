@@ -54,9 +54,10 @@ class PanelWidget extends ConsumerWidget {
                         onTap: () {
                              ref.read(onItemTappedProvider)(
                                           panelController,
+                                          controller,
                                           ref,
-                                          Pages.home,
-                                          0);
+                                          Pages.storyOfTheDay,
+                                          0, 0);
                         },
                         child:  Padding(
                           padding: const EdgeInsets.only(top: 14, bottom: 40),
@@ -179,10 +180,11 @@ class PanelWidget extends ConsumerWidget {
                                     onTap: () {
                                       ref.read(onItemTappedProvider)(
                                           panelController,
+                                          controller,
                                           ref,
                                           Pages.storeInfo,
                                           int.parse(
-                                              snapshot.data![index]['id']));
+                                              snapshot.data![index]['id']), 0);
                                     },
                                     distance: snapshot.data![index]['distance'],
                                   ),

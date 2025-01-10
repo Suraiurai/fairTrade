@@ -24,7 +24,7 @@ class ProfileScreen extends StatelessWidget {
                   controller: controller,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 16),
+                      padding: const EdgeInsets.only(bottom: 16, top: 50),
                       child: AppIcons.profile.svgPicture(),
                     ),
                     const Center(
@@ -56,6 +56,7 @@ class ProfileScreen extends StatelessWidget {
                       icon: AppIcons.scan.svgPicture(),
                       onTap: () {},
                     ),
+                     const SizedBox(height: 100),
                   ],
                 ),
               ),

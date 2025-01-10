@@ -1,0 +1,26 @@
+[
+    {
+        "id" : 0,
+        "name" : "Adora",
+        "address" : "Sydney Johnson, 800 Ocean Avenuea",
+        "image" : "adora"
+    },
+    {
+        "id" : 1,
+        "name" : "Ben&Jerry’s",
+        "address" : "421 North Spruce, Gardner, Kansas 66030",
+        "image" : "ber_fair"
+    },
+    {
+        "id" : 2,
+        "name" : "Gourmesso.com",
+        "address" : "Sydney Johnson, 800 Ocean Avenuea",
+        "image" : "gourmesso"
+    },
+    {
+        "id" : 3,
+        "name" : "Gimme",
+        "address" : "421 North Spruce, Gardner, Kansas 66030",
+        "image" : "gimme"
+    }
+]

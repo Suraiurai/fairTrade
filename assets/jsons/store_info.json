@@ -18,26 +18,92 @@
         ],
         "products" : [
             {
+                "id" : "0",
+                "category" : [
+                    {
+                        "icon" : "chocolate",
+                        "name" : "Chocolate"
+                    }
+                ],
+                "organization" :    {
+                    "id" : 0,
+                    "name" : "Adora",
+                    "address" : "Sydney Johnson, 800 Ocean Avenuea",
+                    "image" : "adora"
+                },
                 "image" : "product_1",
                 "name" : "Phinish Food",
                 "price" : "$18.00"
+                
             },
             {
+                "id" : "1",
+                "category" : [
+                    {
+                        "icon" : "chocolate",
+                        "name" : "Chocolate"
+                    }
+                ],
+                "organization" : {
+                    "id" : 1,
+                    "name" : "Ben&Jerry’s",
+                    "address" : "421 North Spruce, Gardner, Kansas 66030",
+                    "image" : "ber_fair"
+                },
                 "image" : "product_2",
                 "name" : "Hunks",
                 "price" : "$10.00"
             },
             {
+                "id" : "2",
+                "category" : [
+                    {
+                        "icon" : "chocolate",
+                        "name" : "Chocolate"
+                    }
+                ],
+                "organization" : {
+                    "id" : 2,
+                    "name" : "Gourmesso.com",
+                    "address" : "Sydney Johnson, 800 Ocean Avenuea",
+                    "image" : "gourmesso"
+                },
                 "image" : "product_3",
                 "name" : "Endangered Species",
                 "price" : "$19.99"
             },
             {
+                "id" : "3",
+                "category" : [
+                    {
+                        "icon" : "coffe_bean",
+                        "name" : "Coffee"
+                    }
+                ],
+                "organization" : {
+                    "id" : 2,
+                    "name" : "Gourmesso.com",
+                    "address" : "Sydney Johnson, 800 Ocean Avenuea",
+                    "image" : "gourmesso"
+                },
                 "image" : "product_4",
                 "name" : "Three sisters - coffee",
                 "price" : "$19.99"
             },
             {
+                "id" : "4",
+                "category" : [
+                    {
+                        "icon" : "chocolate",
+                        "name" : "Chocolate"
+                    }
+                ],
+                "organization" : {
+                    "id" : 3,
+                    "name" : "Gimme",
+                    "address" : "421 North Spruce, Gardner, Kansas 66030",
+                    "image" : "gimme"
+                },
                 "image" : "product_1",
                 "name" : "HU - Chocolate Covered Hunks",
                 "price" : "$10.00"
@@ -63,26 +129,203 @@
         ],
         "products" : [
             {
+                "id" : "0",
+                "category" : [
+                    {
+                        "icon" : "chocolate",
+                        "name" : "Chocolate"
+                    }
+                ],
+                "organization" :    {
+                    "id" : 0,
+                    "name" : "Adora",
+                    "address" : "Sydney Johnson, 800 Ocean Avenuea",
+                    "image" : "adora"
+                },
                 "image" : "product_1",
                 "name" : "Phinish Food",
                 "price" : "$18.00"
+                
             },
             {
+                "id" : "1",
+                "category" : [
+                    {
+                        "icon" : "chocolate",
+                        "name" : "Chocolate"
+                    }
+                ],
+                "organization" : {
+                    "id" : 1,
+                    "name" : "Ben&Jerry’s",
+                    "address" : "421 North Spruce, Gardner, Kansas 66030",
+                    "image" : "ber_fair"
+                },
                 "image" : "product_2",
                 "name" : "Hunks",
                 "price" : "$10.00"
             },
             {
+                "id" : "2",
+                "category" : [
+                    {
+                        "icon" : "chocolate",
+                        "name" : "Chocolate"
+                    }
+                ],
+                "organization" : {
+                    "id" : 2,
+                    "name" : "Gourmesso.com",
+                    "address" : "Sydney Johnson, 800 Ocean Avenuea",
+                    "image" : "gourmesso"
+                },
                 "image" : "product_3",
                 "name" : "Endangered Species",
                 "price" : "$19.99"
             },
             {
+                "id" : "3",
+                "category" : [
+                    {
+                        "icon" : "coffe_bean",
+                        "name" : "Coffee"
+                    }
+                ],
+                "organization" : {
+                    "id" : 2,
+                    "name" : "Gourmesso.com",
+                    "address" : "Sydney Johnson, 800 Ocean Avenuea",
+                    "image" : "gourmesso"
+                },
                 "image" : "product_4",
                 "name" : "Three sisters - coffee",
                 "price" : "$19.99"
             },
             {
+                "id" : "4",
+                "category" : [
+                    {
+                        "icon" : "chocolate",
+                        "name" : "Chocolate"
+                    }
+                ],
+                "organization" : {
+                    "id" : 3,
+                    "name" : "Gimme",
+                    "address" : "421 North Spruce, Gardner, Kansas 66030",
+                    "image" : "gimme"
+                },
+                "image" : "product_1",
+                "name" : "HU - Chocolate Covered Hunks",
+                "price" : "$10.00"
+            }   
+        ]
+    },
+    {
+        "id": "2",
+        "market_name": "Kroger",
+        "address": "421 North Spruce, Gardner, Kansas 66030",
+        "distance": "2.4km",
+        "icon": "kroger",
+        "description" : "Food goes toward environmental efforts in Vermont's Lake Champlain Watershed.",
+        "category" : [
+            {
+                "icon" : "banana",
+                "name" : "Banana"
+            },
+            {
+                "icon" : "sugar",
+                "name" : "Sugar"
+            }
+        ],
+        "products" : [
+            {
+                "id" : "0",
+                "category" : [
+                    {
+                        "icon" : "chocolate",
+                        "name" : "Chocolate"
+                    }
+                ],
+                "organization" :    {
+                    "id" : 0,
+                    "name" : "Adora",
+                    "address" : "Sydney Johnson, 800 Ocean Avenuea",
+                    "image" : "adora"
+                },
+                "image" : "product_1",
+                "name" : "Phinish Food",
+                "price" : "$18.00"
+                
+            },
+            {
+                "id" : "1",
+                "category" : [
+                    {
+                        "icon" : "chocolate",
+                        "name" : "Chocolate"
+                    }
+                ],
+                "organization" : {
+                    "id" : 1,
+                    "name" : "Ben&Jerry’s",
+                    "address" : "421 North Spruce, Gardner, Kansas 66030",
+                    "image" : "ber_fair"
+                },
+                "image" : "product_2",
+                "name" : "Hunks",
+                "price" : "$10.00"
+            },
+            {
+                "id" : "2",
+                "category" : [
+                    {
+                        "icon" : "chocolate",
+                        "name" : "Chocolate"
+                    }
+                ],
+                "organization" : {
+                    "id" : 2,
+                    "name" : "Gourmesso.com",
+                    "address" : "Sydney Johnson, 800 Ocean Avenuea",
+                    "image" : "gourmesso"
+                },
+                "image" : "product_3",
+                "name" : "Endangered Species",
+                "price" : "$19.99"
+            },
+            {
+                "id" : "3",
+                "category" : [
+                    {
+                        "icon" : "coffe_bean",
+                        "name" : "Coffee"
+                    }
+                ],
+                "organization" : {
+                    "id" : 2,
+                    "name" : "Gourmesso.com",
+                    "address" : "Sydney Johnson, 800 Ocean Avenuea",
+                    "image" : "gourmesso"
+                },
+                "image" : "product_4",
+                "name" : "Three sisters - coffee",
+                "price" : "$19.99"
+            },
+            {
+                "id" : "4",
+                "category" : [
+                    {
+                        "icon" : "chocolate",
+                        "name" : "Chocolate"
+                    }
+                ],
+                "organization" : {
+                    "id" : 3,
+                    "name" : "Gimme",
+                    "address" : "421 North Spruce, Gardner, Kansas 66030",
+                    "image" : "gimme"
+                },
                 "image" : "product_1",
                 "name" : "HU - Chocolate Covered Hunks",
                 "price" : "$10.00"

@@ -1,39 +1,30 @@
-import 'package:dubai_project/components/TF.dart';
 import 'package:dubai_project/components/header.dart';
-import 'package:dubai_project/components/product_category.dart';
-import 'package:dubai_project/components/text.dart';
-import 'package:dubai_project/screens/MapPage/map_vm.dart';
-import 'package:dubai_project/screens/StorePage/store_vm.dart';
-import 'package:dubai_project/utilities/enums.dart';
-import 'package:dubai_project/utilities/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+import '../../components/TF.dart';
 import '../../components/product_item.dart';
 import '../../components/search_button.dart';
+import '../../components/text.dart';
+import '../../utilities/assets.dart';
+import '../../utilities/enums.dart';
+import '../../utilities/theme.dart';
 import '../HomePage/controllers/home_vm.dart';
+import '../MapPage/map_vm.dart';
 import '../search_page/search_vm.dart';
 
-class StoreScreen extends ConsumerWidget {
+class OrganizationPage extends ConsumerWidget {
   final ScrollController controller;
   final PanelController panelController;
   final PageController pagecontroller = PageController();
   final int id;
-  StoreScreen({
-    super.key,
-    required this.controller,
-    required this.panelController,
-    required this.id,
-  });
+   OrganizationPage(
+      {super.key,
+      required this.controller,
+      required this.panelController,
+      required this.id});
 
-   void _scrollToTop() {
-    controller.animateTo(
-      0.0, 
-      duration: Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
-    );
-  }
 
 
   @override
@@ -42,31 +33,40 @@ class StoreScreen extends ConsumerWidget {
 
     final futureData =
         jsonLoader.loadJsonFromAssets('assets/jsons/store_info.json', ref);
-
+    final futureOrgData =
+        jsonLoader.loadJsonFromAssets('assets/jsons/organithations.json', ref);
     return Stack(
       children: [
         Column(
           children: [
             const SizedBox(height: 20),
             FutureBuilder<List<dynamic>>(
-                future: futureData,
+                future: futureOrgData,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    ref.read(dataLoaded.notifier).update((state) => true);
                     return Expanded(
                       child: CustomScrollView(
                         controller: controller,
                         slivers: [
                           const SliverToBoxAdapter(
-                            child: SizedBox(height: 40),
+                            child: SizedBox(height: 50),
                           ),
                           SliverPadding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             sliver: SliverToBoxAdapter(
                               child: Row(
                                 children: [
-                                  SvgPicture.asset(
-                                      "assets/icons/shop_rectangle.svg"),
+                                  Container(
+                                    width: 73,
+                                    height: 73,
+                                    decoration: BoxDecoration(
+                                        color: AppColors.light200,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Image(
+                                        image: AssetImage(
+                                            "assets/icons/${snapshot.data![id]["image"]}.png")),
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.only(left: 20),
                                     child: SizedBox(
@@ -77,8 +77,7 @@ class StoreScreen extends ConsumerWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           AllText(
-                                              text: snapshot.data![id]
-                                                  ['market_name']),
+                                              text: snapshot.data![id]["name"]),
                                           const Spacer(),
                                           AllText(
                                               text: snapshot.data![id]
@@ -95,79 +94,163 @@ class StoreScreen extends ConsumerWidget {
                               ),
                             ),
                           ),
-                          SliverPadding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            sliver: SliverToBoxAdapter(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 40),
-                                child: SizedBox(
-                                  child: AllText(
-                                      maxLine: 10,
-                                      text: snapshot.data![id]['description']),
-                                ),
-                              ),
-                            ),
-                          ),
                           SliverToBoxAdapter(
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const Padding(
-                                  padding:
-                                      EdgeInsets.only(left: 20, bottom: 20),
-                                  child: AllText(
-                                    text: "Category",
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 50,
-                                  child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                    itemCount:
-                                        snapshot.data![id]["category"].length,
-                                    itemBuilder: (context, index) => Row(
+                                GestureDetector(
+                                  onTap: () {
+                                    ref.read(onItemTappedProvider)(
+                                        panelController,
+                                        controller,
+                                        ref,
+                                        Pages.organizationInfo,
+                                        0,
+                                        0);
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 40, bottom: 40),
+                                    child: Stack(
                                       children: [
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 6),
-                                          child: ProductCategory(
-                                            text: snapshot.data![id]["category"]
-                                                [index]["name"],
-                                            icon: snapshot.data![id]["category"]
-                                                [index]["icon"],
-                                            onTap: () {
-                                              ref
-                                                  .read(categoryIndex.notifier)
-                                                  .update((state) => index);
-                                            },
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            child: Container(
+                                              decoration: const BoxDecoration(),
+                                              child: AppIcons.woman.pngPicture,
+                                            ),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          bottom: 0,
+                                          left: 20,
+                                          right: 20,
+                                          child: Container(
+                                            height: 120,
+                                            width: double.infinity,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  const BorderRadius.only(
+                                                      bottomLeft:
+                                                          Radius.circular(16),
+                                                      bottomRight:
+                                                          Radius.circular(16)),
+                                              gradient: LinearGradient(
+                                                begin: Alignment.bottomCenter,
+                                                end: Alignment.topCenter,
+                                                colors: [
+                                                  AppColors.blackCustom
+                                                      .withOpacity(0.7),
+                                                  Color.fromARGB(0, 0, 0, 0),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        const Positioned(
+                                          bottom: 0,
+                                          left: 33.5,
+                                          child: SizedBox(
+                                            height: 40,
+                                            width: 236,
+                                            child: AllText(
+                                              text: "Farmers who produce",
+                                              color: AppColors.whiteCustom,
+                                              fontSize: 15,
+                                              maxLine: 2,
+                                              fontWeight: FontWeight.bold,
+                                            ),
                                           ),
                                         )
                                       ],
                                     ),
                                   ),
                                 ),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                  child: AllText(
+                                    text:
+                                        "From a renovated gas station in Burlington, Vermont, to far-off places with names we sometimes mispronounce, the journey that began in 1978 with 2 guys and the ice cream business they built is as legendary as the ice cream is euphoric.",
+                                    maxLine: 10,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 40),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      ref.read(onItemTappedProvider)(
+                                        panelController,
+                                        controller,
+                                        ref,
+                                        Pages.paymentInfo,
+                                        0,
+                                        0,
+                                      );
+                                    },
+                                    child: Container(
+                                      height: 72,
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.p1,
+                                        borderRadius: BorderRadius.circular(80),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.2),
+                                            spreadRadius: 0,
+                                            blurRadius: 10,
+                                            offset: Offset(0, 4),
+                                          ),
+                                        ],
+                                      ),
+                                      child: Stack(
+                                        children: [
+                                          Center(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 20),
+                                              child: Row(
+                                                children: [
+                                                  const AllText(
+                                                    text: "Donate",
+                                                    fontWeight: FontWeight.bold,
+                                                    color:
+                                                        AppColors.whiteCustom,
+                                                    fontSize: 15,
+                                                  ),
+                                                  const Spacer(),
+                                                  AppIcons.arrow.svgPicture(),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 4,
+                                    decoration: BoxDecoration(
+                                        color: AppColors.light200,
+                                        borderRadius:
+                                            BorderRadius.circular(50)),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                          SliverPadding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 40),
-                            sliver: SliverToBoxAdapter(
-                              child: Container(
-                                width: double.infinity,
-                                height: 3,
-                                decoration: BoxDecoration(
-                                    color: AppColors.light200,
-                                    borderRadius: BorderRadius.circular(50)),
-                              ),
-                            ),
-                          ),
-                          const SliverPadding(
+                                      const SliverPadding(
                             padding: EdgeInsets.only(
                                 bottom: 20, left: 20, right: 20),
                             sliver: SliverToBoxAdapter(
@@ -283,8 +366,6 @@ class StoreScreen extends ConsumerWidget {
                                                                   ['products']
                                                               [index]["id"]),
                                                     );
-
-                                                    _scrollToTop();
                                                   },
                                                 );
                                               },
@@ -348,7 +429,7 @@ class StoreScreen extends ConsumerWidget {
                                                             chocolateProducts[
                                                                 index]["id"]),
                                                       );
-                                                       _scrollToTop();
+                                                      //  _scrollToTop();
                                                     },
                                                   );
                                                 } else {
@@ -411,7 +492,7 @@ class StoreScreen extends ConsumerWidget {
                                                             coffeeProducts[
                                                                 index]["id"]),
                                                       );
-                                                       _scrollToTop();
+                                                      //  _scrollToTop();
                                                     },
                                                   );
                                                 } else {
@@ -462,23 +543,18 @@ class StoreScreen extends ConsumerWidget {
                             ),
                           ),
                           const SliverToBoxAdapter(
-                              child: SizedBox(height: 100)),
+                            child: SizedBox(height: 100),
+                          )
                         ],
                       ),
                     );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Error: ${snapshot.error}'),
-                    );
                   } else {
-                    return Center(
-                      child: Text('Error: ${snapshot.error}'),
-                    );
+                    return Container();
                   }
-                }),
+                })
           ],
         ),
-        const Header()
+        Header()
       ],
     );
   }

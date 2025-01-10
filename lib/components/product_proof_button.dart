@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:dubai_project/components/text.dart';
 import 'package:dubai_project/utilities/assets.dart';
 import 'package:dubai_project/utilities/theme.dart';
@@ -27,7 +26,7 @@ class ProductProofButton extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 20),
                 child: AllText(text: text),
               ),
-              Spacer(),
+              const Spacer(),
               AppIcons.arrowRight.svgPicture()
             ],
           ),

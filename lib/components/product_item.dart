@@ -11,28 +11,32 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 223,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 167,
-            decoration: BoxDecoration(
-              color: AppColors.light200,
-              borderRadius: BorderRadius.circular(10)
+    return GestureDetector(
+      onTap: onTap,
+      child: SizedBox(
+        height: 223,
+        width: 166,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 167,
+              decoration: BoxDecoration(
+                color: AppColors.light200,
+                borderRadius: BorderRadius.circular(10)
+              ),
+              child: Center(child: Image(image: AssetImage("assets/icons/$image.png"))),
             ),
-            child: Center(child: Image(image: AssetImage("assets/icons/$image.png"))),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: AllText(text: price, fontSize: 15),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: AllText(text: txt, fontSize: 15, fontWeight: FontWeight.w500),
-          ),
-        ],
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: AllText(text: price, fontSize: 15),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: AllText(text: txt, fontSize: 15, fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
       ),
     );
   }

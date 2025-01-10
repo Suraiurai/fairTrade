@@ -6,8 +6,8 @@ enum AppIcons {
   searchSelectedTab("search_selected"),
   homeTab("home"),
   homeSelectedTab("home_selected"),
-  messageTab("message"),
-  messageSelectedTab("message_selected"),
+  messageTab("help_center"),
+  messageSelectedTab("help_center_active"),
   profileTab("profile"),
   profileSelectedTab("profile_selected"),
   findonMap("find_on_map"),
@@ -16,7 +16,6 @@ enum AppIcons {
   walmart("walmart"),
   kroger("kroger"),
   shop("shop"),
-  benandJerry("berry&jerry"),
   shopText("shop_rectangle"),
   chocolate("chocolate"),
   banana("banana"),
@@ -29,7 +28,12 @@ enum AppIcons {
   woman("womenImg"),
   arrow("arrow"),
   scan("Scan"),
-  profile("profile_fair")
+  profile("profile_fair"),
+  heartActive("heart_active"),
+  heartInactive("heart_inactive"),
+  benandJerry("ben&jerry"),
+  contactUs("contact_us"),
+  barcode("barcode")
 
 
   ;

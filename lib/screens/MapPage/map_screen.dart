@@ -2,10 +2,11 @@ import 'package:dubai_project/components/nav_bar_icon.dart';
 import 'package:dubai_project/components/text.dart';
 import 'package:dubai_project/screens/HomePage/UI/panel_widget.dart';
 import 'package:dubai_project/screens/MapPage/map_vm.dart';
+import 'package:dubai_project/screens/OrganizationPage/organization_scree.dart';
+import 'package:dubai_project/screens/ProductPage/product_info_page.dart';
 import 'package:dubai_project/screens/ProductProofPage/product_proof_screen.dart';
 import 'package:dubai_project/screens/ProfilePage/profile_screen.dart';
 import 'package:dubai_project/screens/StorePage/store_screen.dart';
-import 'package:dubai_project/screens/StoryPage/store_of_the_day_screen.dart';
 import 'package:dubai_project/screens/search_page/search_screen.dart';
 import 'package:dubai_project/utilities/assets.dart';
 import 'package:dubai_project/utilities/enums.dart';
@@ -17,6 +18,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'dart:async';
+
+import '../AIHelperPage/ai_helper_screen.dart';
+import '../PaymentPage/payment_screen.dart';
+import '../StoryPage/story_of_the_day_screen.dart';
 
 class MapScreen extends ConsumerStatefulWidget {
   const MapScreen({super.key});
@@ -89,21 +94,21 @@ class _MapScreenState extends ConsumerState<MapScreen> {
       resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
-          GoogleMap(
-            mapType: MapType.normal,
-            initialCameraPosition: CameraPosition(
-              target: _currentLocation ??
-                  const LatLng(37.42796133580664, -122.085749655962),
-              zoom: 14.4746,
-            ),
-            onMapCreated: (controller) {
-              _controller.complete(controller);
-              controller.setMapStyle(_mapStyleString);
-            },
-            markers: _markers,
-            myLocationEnabled: true,
-            myLocationButtonEnabled: true,
-          ),
+          // GoogleMap(
+          //   mapType: MapType.normal,
+          //   initialCameraPosition: CameraPosition(
+          //     target: _currentLocation ??
+          //         const LatLng(37.42796133580664, -122.085749655962),
+          //     zoom: 14.4746,
+          //   ),
+          //   onMapCreated: (controller) {
+          //     _controller.complete(controller);
+          //     controller.setMapStyle(_mapStyleString);
+          //   },
+          //   markers: _markers,
+          //   myLocationEnabled: true,
+          //   myLocationButtonEnabled: true,
+          // ),
           Container(
             height: 260,
             width: double.infinity,
@@ -142,12 +147,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      AllText(
+                      const AllText(
                           text: "250",
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
                           color: AppColors.p1),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       SizedBox(
                           width: 24, height: 24, child: AppIcons.f.svgPicture())
                     ],
@@ -158,13 +163,12 @@ class _MapScreenState extends ConsumerState<MapScreen> {
           ),
           SlidingUpPanel(
             controller: _panelController,
-            maxHeight: ref.watch(selectedIndexProvider) == 4
-                ? 640
-                : ref.watch(selectedIndexProvider) == 2
-                    ? 407
-                    : MediaQuery.of(context).size.height * 0.93,
+            maxHeight: ref.watch(selectedIndexProvider) == 2 || ref.watch(selectedIndexProvider) == 3
+                ? 407 : ref.watch(activePage) == Pages.paymentInfo ? MediaQuery.of(context).size.height
+                    : MediaQuery.of(context).size.height * 0.86,
             minHeight: 130,
             color: Colors.white,
+            boxShadow: [],
             borderRadius: BorderRadius.circular(30),
             panelBuilder: (controller) {
               if (ref.watch(isNavProvider)) {
@@ -176,16 +180,22 @@ class _MapScreenState extends ConsumerState<MapScreen> {
                         panelController: _panelController,
                         id: ref.watch(storeId),
                       )
-                    : StoryOfTheDay(
-                        controller: controller,
-                        panelController: _panelController,
-                      );
+                    : ref.watch(activePage) == Pages.productInfo
+                        ? ProductInfoScreen(
+                            controller: controller,
+                            id: ref.watch(storeId),
+                            ind: ref.watch(productId),
+                            panelcontroller: _panelController)
+                        : ref.watch(activePage) == Pages.organizationInfo
+                            ? OrganizationPage(
+                                controller: controller,
+                                panelController: _panelController,
+                                id: ref.watch(storeId)) : ref.watch(activePage) == Pages.paymentInfo ? PaymentPage()
+                            : StoryOfTheDay(
+                                controller: controller,
+                                panelController: _panelController,
+                              );
               }
-            },
-            onPanelSlide: (position) {
-              _panelController.animatePanelToPosition(
-                (625 - 130) / (MediaQuery.of(context).size.height * 0.93 - 130),
-              );
             },
           ),
           Positioned(
@@ -208,13 +218,16 @@ class _MapScreenState extends ConsumerState<MapScreen> {
         panelController: _panelController,
       );
     } else if (selectedIndex == 1) {
-      return SearchScreen(controller: controller);
+      return SearchScreen(
+        controller: controller,
+        panelcontroller: _panelController,
+      );
     } else if (selectedIndex == 2) {
       return ProductProof(
         controller: controller,
       );
     } else if (selectedIndex == 3) {
-      return Container();
+      return AIHelperScreen();
     } else {
       return ProfileScreen(controller: controller);
     }

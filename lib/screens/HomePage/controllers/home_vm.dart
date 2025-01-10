@@ -3,6 +3,7 @@ import 'package:dubai_project/screens/MapPage/map_vm.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
 
+
 final jsonLoaderProvider = Provider((ref) => JsonLoader());
 
 class JsonLoader {

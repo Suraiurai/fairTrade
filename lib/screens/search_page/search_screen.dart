@@ -1,22 +1,45 @@
-import 'package:dubai_project/components/product_item.dart';
+import 'package:dubai_project/components/TF.dart';
+import 'package:dubai_project/components/organization_button.dart';
 import 'package:dubai_project/components/search_button.dart';
 import 'package:dubai_project/utilities/enums.dart';
 import 'package:dubai_project/utilities/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
+import '../../components/product_item.dart';
+import '../../components/text.dart';
+import '../HomePage/controllers/home_vm.dart';
+import '../MapPage/map_vm.dart';
+import 'search_vm.dart';
 
-class SearchScreen extends StatefulWidget {
+class SearchScreen extends ConsumerWidget {
   final ScrollController controller;
-  const SearchScreen({super.key, required this.controller});
+  final PanelController panelcontroller;
+  final PageController pagecontroller = PageController();
+
+  SearchScreen({
+    Key? key,
+    required this.panelcontroller,
+    required this.controller,
+  }) : super(key: key);
+
+    void _scrollToTop() {
+    controller.animateTo(
+      0.0, 
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
 
   @override
-  State<SearchScreen> createState() => _SearchScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final jsonLoader = ref.read(jsonLoaderProvider);
 
-class _SearchScreenState extends State<SearchScreen> {
-  int currentInx = 0;
+    final futureData =
+        jsonLoader.loadJsonFromAssets('assets/jsons/store_info.json', ref);
+    final futureOrganizationsData =
+        jsonLoader.loadJsonFromAssets('assets/jsons/organithations.json', ref);
 
-  @override
-  Widget build(BuildContext context) {
     return Stack(
       children: [
         Column(
@@ -24,11 +47,66 @@ class _SearchScreenState extends State<SearchScreen> {
             const SizedBox(height: 22),
             Expanded(
               child: CustomScrollView(
-                controller: widget.controller,
+                controller: controller,
                 slivers: [
+                  const SliverPadding(
+                    padding: EdgeInsets.only(bottom: 20, left: 20, top: 140),
+                    sliver: SliverToBoxAdapter(
+                        child: AllText(
+                      text: "Organizations",
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    )),
+                  ),
+                  FutureBuilder<List<dynamic>>(
+                      future: futureOrganizationsData,
+                      builder: (context, snap) {
+                        if (snap.hasData) {
+                          return SliverToBoxAdapter(
+                            child: SizedBox(
+                              height: 100,
+                              child: ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20),
+                                  itemCount: snap.data!.length,
+                                  itemBuilder: (context, index) => Padding(
+                                        padding:
+                                            const EdgeInsets.only(right: 10),
+                                        child: OrganizationButton(
+                                          image: snap.data![index]["image"],
+                                          onTap: () {
+                                            ref.read(onItemTappedProvider)(
+                                              panelcontroller,
+                                              controller,
+                                              ref,
+                                              Pages.organizationInfo,
+                                              index,
+                                              0,
+                                            );
+                                          },
+                                        ),
+                                      )),
+                            ),
+                          );
+                        } else {
+                          return const SliverToBoxAdapter(
+                            child: SizedBox(height: 100),
+                          );
+                        }
+                      }),
+                   const SliverPadding(
+                    padding: EdgeInsets.only(bottom: 20, left: 20, top: 40),
+                    sliver: SliverToBoxAdapter(
+                        child: AllText(
+                      text: "Products",
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    )),
+                  ),
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 140),
+                      padding: const EdgeInsets.only(top: 0),
                       child: SizedBox(
                         height: 38,
                         child: ListView.builder(
@@ -41,11 +119,14 @@ class _SearchScreenState extends State<SearchScreen> {
                                 padding: const EdgeInsets.only(right: 6),
                                 child: SearchButton(
                                   SearchButtons.values[index].name,
-                                  isActive: currentInx == index ? true : false,
+                                  isActive:
+                                      ref.watch(curInd) == index ? true : false,
                                   onTap: () {
-                                    setState(() {
-                                      currentInx = index;
-                                    });
+                                    ref
+                                        .read(curInd.notifier)
+                                        .update((state) => index);
+
+                                    pagecontroller.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.easeInOut)   ; 
                                   },
                                 ),
                               )
@@ -55,32 +136,218 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                     ),
                   ),
-                  // SliverPadding(
-                  //   padding: const EdgeInsets.only(
-                  //       top: 40, left: 19.5, right: 19.5, bottom: 100),
-                  //   sliver: SliverGrid(
-                  //     gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                  //       maxCrossAxisExtent:
-                  //           MediaQuery.of(context).size.width / 2,
-                  //       mainAxisExtent: 223,
-                  //       mainAxisSpacing: 30.0,
-                  //       crossAxisSpacing: 22.0,
-                  //       childAspectRatio: 1,
-                  //     ),
-                  //     delegate: SliverChildBuilderDelegate(
-                  //       (BuildContext context, int index) {
-                  //         return ProductItem(
-                  //           txt: snapshot.data![id]['products'][index]["name"],
-                  //           image: snapshot.data![id]['products'][index]
-                  //               ["image"],
-                  //           price: snapshot.data![id]['products'][index]
-                  //               ["price"],
-                  //         );
-                  //       },
-                  //       childCount: snapshot.data![id]['products'].length,
-                  //     ),
-                  //   ),
-                  // ),
+                  SliverToBoxAdapter(
+                    child: FutureBuilder<List<dynamic>>(
+                      future: futureData,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          int crossAxisCount = 2;
+                          double itemHeight = 223.0;
+                          double spacing = 30.0;
+
+                          return SizedBox(
+                            height: ref.watch(gridHeight),
+                            child: PageView.builder(
+                              controller: pagecontroller,
+                              itemCount: SearchButtons.values.length,
+                              itemBuilder: (context, pageIndex) {
+                                if (pageIndex == 0) {
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: GridView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      gridDelegate:
+                                          SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent:
+                                            MediaQuery.of(context).size.width /
+                                                crossAxisCount,
+                                        mainAxisExtent: itemHeight,
+                                        mainAxisSpacing: spacing,
+                                        crossAxisSpacing: 22.0,
+                                      ),
+                                      itemCount: ref.watch(productCount),
+                                      itemBuilder: (context, index) {
+                                        return ProductItem(
+                                          txt: snapshot.data![1]['products']
+                                              [index]["name"],
+                                          image: snapshot.data![1]['products']
+                                              [index]["image"],
+                                          price: snapshot.data![1]['products']
+                                              [index]["price"],
+                                          onTap: () {
+                                            ref.read(onItemTappedProvider)(
+                                              panelcontroller,
+                                              controller,
+                                              ref,
+                                              Pages.productInfo,
+                                              1,
+                                              int.parse(snapshot.data![1]
+                                                  ['products'][index]["id"]),
+                                            );
+                                            _scrollToTop();
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  );
+                                } else if (pageIndex == 1) {
+                                  List<dynamic> products =
+                                      snapshot.data![1]['products'];
+                                  List<dynamic> chocolateProducts =
+                                      products.where((product) {
+                                    List<dynamic> categories =
+                                        product['category'];
+                                    return categories.any((category) =>
+                                        category['name'] == 'Chocolate');
+                                  }).toList();
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: GridView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      gridDelegate:
+                                          SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent:
+                                            MediaQuery.of(context).size.width /
+                                                crossAxisCount,
+                                        mainAxisExtent: itemHeight,
+                                        mainAxisSpacing: spacing,
+                                        crossAxisSpacing: 22.0,
+                                      ),
+                                      itemCount: chocolateProducts.length,
+                                      itemBuilder: (context, index) {
+                                        if (snapshot.data![1]['products'][index]
+                                                ["category"][0]["name"] ==
+                                            'Chocolate') {
+                                          return ProductItem(
+                                            txt: chocolateProducts[index]
+                                                ["name"],
+                                            image: chocolateProducts[index]
+                                                ["image"],
+                                            price: chocolateProducts[index]
+                                                ["price"],
+                                            onTap: () {
+                                              ref.read(onItemTappedProvider)(
+                                                panelcontroller,
+                                                controller,
+                                                ref,
+                                                Pages.productInfo,
+                                                1,
+                                                int.parse(
+                                                    chocolateProducts[index]
+                                                        ["id"]),
+                                              );
+                                              _scrollToTop();
+                                            },
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
+                                      },
+                                    ),
+                                  );
+                                } else if (pageIndex == 3) {
+                                  List<dynamic> products =
+                                      snapshot.data![1]['products'];
+                                  List<dynamic> coffeeProducts =
+                                      products.where((product) {
+                                    List<dynamic> categories =
+                                        product['category'];
+                                    return categories.any((category) =>
+                                        category['name'] == 'Coffee');
+                                  }).toList();
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: GridView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      gridDelegate:
+                                          SliverGridDelegateWithMaxCrossAxisExtent(
+                                        maxCrossAxisExtent:
+                                            MediaQuery.of(context).size.width /
+                                                crossAxisCount,
+                                        mainAxisExtent: itemHeight,
+                                        mainAxisSpacing: spacing,
+                                        crossAxisSpacing: 22.0,
+                                      ),
+                                      itemCount: coffeeProducts.length,
+                                      itemBuilder: (context, index) {
+                                        if (snapshot.data![1]['products'][index]
+                                                ["category"][0]["name"] ==
+                                            'Chocolate') {
+                                          return ProductItem(
+                                            txt: coffeeProducts[index]["name"],
+                                            image: coffeeProducts[index]
+                                                ["image"],
+                                            price: coffeeProducts[index]
+                                                ["price"],
+                                            onTap: () {
+                                              ref.read(onItemTappedProvider)(
+                                                panelcontroller,
+                                                controller,
+                                                ref,
+                                                Pages.productInfo,
+                                                1,
+                                                int.parse(coffeeProducts[index]
+                                                    ["id"]),
+                                              );
+                                              _scrollToTop();
+                                            },
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
+                                      },
+                                    ),
+                                  );
+                                } else {
+                                  return Container();
+                                }
+                              },
+                              onPageChanged: (value) {
+                                ref
+                                    .read(curInd.notifier)
+                                    .update((state) => value);
+                                if (value == 0) {
+                                  ref
+                                      .read(productCount.notifier)
+                                      .update((state) => 5);
+                                } else if (value == 1) {
+                                  ref
+                                      .read(productCount.notifier)
+                                      .update((state) => 3);
+                                } else if (value == 3) {
+                                  ref
+                                      .read(productCount.notifier)
+                                      .update((state) => 1);
+                                } else {
+                                  ref
+                                      .read(productCount.notifier)
+                                      .update((state) => 1);
+                                }
+                                final int rowCount =
+                                    (ref.watch(productCount) / crossAxisCount)
+                                        .ceil();
+                                ref
+                                        .read(gridHeight.notifier)
+                                        .update((state) => rowCount * 250) +
+                                    ((rowCount - 1) * spacing);
+                              },
+                            ),
+                          );
+                        } else {
+                          return const SizedBox.shrink();
+                        }
+                      },
+                    ),
+                  ),
+                  const SliverToBoxAdapter(
+                    child: SizedBox(height: 100),
+                  )
                 ],
               ),
             ),
@@ -135,34 +402,10 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width - 40,
-                    height: 50,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.light100,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: TextField(
-                        decoration: const InputDecoration(
-                          hintText: 'Search',
-                          hintStyle: TextStyle(color: AppColors.light600),
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: AppColors.light600,
-                          ),
-                          border:
-                              OutlineInputBorder(borderSide: BorderSide.none),
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 14),
-                        ),
-                        onChanged: (text) {},
-                      ),
-                    ),
-                  ),
-                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 40, left: 20, right: 20),
+                  child: TextFieldCustom(),
+                )
               ],
             ),
           ),

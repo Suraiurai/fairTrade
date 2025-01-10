@@ -9,7 +9,7 @@ class Header extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          height: 60,
+          height: 100,
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.only(
